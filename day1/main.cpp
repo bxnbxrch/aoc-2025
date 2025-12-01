@@ -3,9 +3,6 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include "inttypes.h"
-#include <algorithm>
-
 
 // wrapping clamp function.
 // wraps value around a min and max instead of std::clamp
@@ -67,10 +64,9 @@ int main(){
         if(current_idx == 0)
             zero_count++;
     }
-
-    printf("answer: %ld", zero_count);
-
     
+    std::cout << "Landed on 0 a total of: " << zero_count << " times.\n";
+
 }
 
 
