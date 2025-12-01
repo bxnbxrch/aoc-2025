@@ -44,28 +44,41 @@ auto read_file_lines(const std::filesystem::path& path) -> std::vector<std::stri
 // e.g. L23
 int main(){
 
-    constexpr int   START_IDX       = 50;
-    constexpr int   MIN_IDX         = 0;
-    constexpr int   MAX_IDX         = 99;
+    constexpr int   START_IDX           = 50;
+    constexpr int   MIN_IDX             = 0;
+    constexpr int   MAX_IDX             = 99;
     
     
-    int             current_idx =   START_IDX;
-    size_t          zero_count =    0;
-    
+    int             current_idx         = START_IDX;
+    size_t          zero_count          = 0;
+    size_t          pass_zero_count     = 0;
+
     const auto input = read_file_lines(std::filesystem::current_path() / "input.txt");
 
+for (std::string_view line : input) {
+    char direction = line.front();
+    int dist = std::stoi(std::string(line.substr(1)));
+    int signed_dist = (direction == 'R') ? 1 : -1;  // move 1 click at a time
+    int steps = std::abs(dist);
 
-    for(std::string_view line : input){
-        char direction = line.front();
-        int dist = std::stoi(std::string(line.substr(1)));
-        current_idx += (direction == 'R') ? dist : -dist;
-        current_idx = wrap(current_idx, MIN_IDX, MAX_IDX);
-
-        if(current_idx == 0)
-            zero_count++;
+    for (int i = 0; i < steps; ++i) {
+        current_idx = wrap(current_idx + signed_dist, MIN_IDX, MAX_IDX);
+        if (current_idx == 0) 
+            pass_zero_count++;
     }
-    
+
+    if (current_idx == 0) 
+        zero_count++;
+}
+
+
     std::cout << "Landed on 0 a total of: " << zero_count << " times.\n";
+    std::cout << "Passed over 0 a total of: " << pass_zero_count << " times.\n";
+
+
+
+    // Part 2
+
 
 }
 
